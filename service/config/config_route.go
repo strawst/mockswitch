@@ -24,6 +24,17 @@ func (r *Service) RouteLoad() {
 			if err := yaml.Unmarshal(yml, routeFile); err != nil {
 				interact.Fatal("unable to parse route file", err)
 			}
+			for _, endpoint := range routeFile.Endpoints {
+				for key, query := range endpoint.Queries {
+					query.Name = &key
+				}
+				for key, body := range endpoint.Bodies {
+					body.Name = &key
+				}
+				for key, response := range endpoint.Responses {
+					response.Name = &key
+				}
+			}
 			r.Route.Files[path] = routeFile
 		}
 		return nil

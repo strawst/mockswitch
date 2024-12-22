@@ -22,7 +22,7 @@ func Serve(app *app.App) *Service {
 			Files: make(map[string]*RouteFile),
 		},
 		Toggle: &Toggle{
-			Mock: make(map[string]*bool),
+			Mock: make(map[string]*ToggleConfig),
 		},
 	}
 

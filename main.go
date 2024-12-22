@@ -6,6 +6,7 @@ import (
 	"mockswitch/app"
 	"mockswitch/app/instance"
 	"mockswitch/service/config"
+	"mockswitch/service/fiber"
 	"os"
 )
 
@@ -19,6 +20,7 @@ func main() {
 		),
 		fx.Provide(
 			config.Serve,
+			fiber.Serve,
 			instance.New,
 			app.New,
 		),
@@ -28,7 +30,8 @@ func main() {
 	).Run()
 }
 
-func invoke(instance *instance.App, app *app.App) {
+func invoke(instance *instance.App, app *app.App, fiber *fiber.Fiber) {
+	_ = fiber
 	app.Init(instance.App)
 	instance.Run()
 	os.Exit(0)

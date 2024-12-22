@@ -5,16 +5,20 @@ import (
 	"github.com/bsthun/gut"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
+	"mockswitch/app"
 	"mockswitch/service/config"
 )
 
 type Fiber struct {
-	Fiber *fiber.App
+	app    *app.App
+	config *config.Service
+	Fiber  *fiber.App
 }
 
-func Init(lifecycle fx.Lifecycle, config *config.Service) *Fiber {
+func Serve(lifecycle fx.Lifecycle, app *app.App, config *config.Service) *Fiber {
 	i := &Fiber{
-		Fiber: nil,
+		config: config,
+		Fiber:  nil,
 	}
 
 	i.Fiber = fiber.New(fiber.Config{
@@ -33,12 +37,14 @@ func Init(lifecycle fx.Lifecycle, config *config.Service) *Fiber {
 		},
 	})
 
-	go func() {
-		err := i.Fiber.Listen(*config.Workspace.Listen)
-		if err != nil {
-			gut.Fatal("unable to listen", err)
-		}
-	}()
+	app.Initialized = append(app.Initialized, func() {
+		go func() {
+			err := i.Fiber.Listen(*config.Workspace.Listen)
+			if err != nil {
+				gut.Fatal("unable to listen", err)
+			}
+		}()
+	})
 
 	return i
 }

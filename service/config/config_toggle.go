@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/bsthun/gut"
 	"gopkg.in/yaml.v3"
 	"mockswitch/util/interact"
 	"os"
@@ -11,12 +10,19 @@ import (
 
 func (r *Service) ToggleLoad() {
 	// * construct toggle map
-	r.Toggle.Mock = make(map[string]*bool)
+	r.Toggle.Mock = make(map[string]*ToggleConfig)
 
 	// * iterate through routes
 	for _, routeFile := range r.Route.Files {
 		for _, routeEndpoint := range routeFile.Endpoints {
-			r.Toggle.Mock[*routeEndpoint.Path] = gut.Ptr(false)
+			key := r.ToggleKey(*routeEndpoint.Path, *routeEndpoint.Method)
+			var responseName *string
+			for _, response := range routeEndpoint.Responses {
+				responseName = response.Name
+			}
+			r.Toggle.Mock[key] = &ToggleConfig{
+				ResponseName: responseName,
+			}
 		}
 	}
 
@@ -27,7 +33,7 @@ func (r *Service) ToggleLoad() {
 	configTogglePath := filepath.Join(configPathDir, configFileName+"-toggle"+configFileExt)
 
 	// * check if config file exists
-	existingToggleMock := make(map[string]*bool)
+	existingToggleMock := make(map[string]*ToggleConfig)
 	existingBytes, err := os.ReadFile(configTogglePath)
 	if err != nil {
 		if !os.IsNotExist(err) {
@@ -41,7 +47,10 @@ func (r *Service) ToggleLoad() {
 
 	// * merge existing toggle mock
 	for k, v := range existingToggleMock {
-		r.Toggle.Mock[k] = v
+		if _, ok := r.Toggle.Mock[k]; ok {
+			// only override if key exists
+			r.Toggle.Mock[k] = v
+		}
 	}
 
 	// * write toggle mock
@@ -52,4 +61,8 @@ func (r *Service) ToggleLoad() {
 	if err := os.WriteFile(configTogglePath, toggleBytes, 0644); err != nil {
 		interact.Error("unable to write toggle file", err)
 	}
+}
+
+func (r *Service) ToggleKey(path string, method string) string {
+	return method + " " + path
 }
