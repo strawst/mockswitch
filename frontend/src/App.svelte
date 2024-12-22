@@ -1,9 +1,10 @@
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
+  import './style/style.scss'
 </script>
 
 <main>
-  <h1>Vite + Svelte</h1>
+  <h1>Mockswitch</h1>
 
   <div class="card">
     <Counter />

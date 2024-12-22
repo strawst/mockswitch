@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  font-family: "Ubuntu", sans-serif;
+}
+
+button {
+  all: inherit;
+  cursor: pointer;
+}
+
+#app, #app > * {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
