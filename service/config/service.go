@@ -5,17 +5,19 @@ import (
 )
 
 type Service struct {
-	app     *app.App
-	Payload *Payload
-	State   *State
+	app       *app.App
+	Config    *Config
+	Workspace *Workspace
+	Route     *Route
+	Toggle    *Toggle
 }
 
 func Serve(app *app.App) *Service {
 	// * construct config
 	config := &Service{
-		app:     app,
-		Payload: nil,
-		State:   nil,
+		app:       app,
+		Config:    nil,
+		Workspace: nil,
 	}
 
 	app.Initialized = append(app.Initialized, func() {

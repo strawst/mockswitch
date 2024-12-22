@@ -1,69 +1,47 @@
 package config
 
-import (
-	"encoding/json"
-	probing "github.com/prometheus-community/pro-bing"
-	"net"
-)
-
-type Payload struct {
-	WorkspaceFile       *string   `yaml:"workspaceFile"`
-	RecentWorkspaceFile []*string `yaml:"recentWorkspaceFile"`
+type Config struct {
+	WorkspaceFile *string `yaml:"workspaceFile"`
 }
 
-type State struct {
-	Name    *string        `yaml:"name" json:"name"`
-	Types   []*StateType   `yaml:"types" json:"types"`
-	Devices []*StateDevice `yaml:"devices" json:"devices"`
+type Workspace struct {
+	Version *uint8            `yaml:"version"`
+	Id      *string           `yaml:"id"`
+	Name    *string           `yaml:"name"`
+	Listen  *string           `yaml:"listen"`
+	Proxies []*WorkspaceProxy `yaml:"proxies"`
 }
 
-type StateType struct {
-	Name  *string          `yaml:"name" json:"name"`
-	Label *string          `yaml:"label" json:"label"`
-	Icon  *string          `yaml:"icon" json:"icon"`
-	Opens []*StateTypeOpen `yaml:"opens" json:"opens"`
+type WorkspaceProxy struct {
+	Prefix *string `yaml:"prefix"`
+	Target *string `yaml:"target"`
 }
 
-type StateTypeOpen struct {
-	Label   *string           `yaml:"label" json:"label"`
-	Ports   []*int            `yaml:"ports" json:"ports"`
-	Command *StateTypeCommand `yaml:"command" json:"command"`
+type Route struct {
+	Endpoints []*RouteEndpoint `yaml:"endpoints"`
 }
 
-type StateTypeCommand struct {
-	Windows *string `yaml:"windows" json:"windows"`
-	MacOS   *string `yaml:"macos" json:"macos"`
+type RouteEndpoint struct {
+	Name      *string                  `yaml:"name"`
+	Method    *string                  `yaml:"method"`
+	Queries   []*RouteEndpointQuery    `yaml:"queries"`
+	Bodies    []*RouteEndpointQuery    `yaml:"queries"`
+	Responses []*RouteEndpointResponse `yaml:"responses"`
 }
 
-type StateDevice struct {
-	Name       *string                 `yaml:"name" json:"name"`
-	Label      *string                 `yaml:"label" json:"label"`
-	Type       *string                 `yaml:"type" json:"type"`
-	Host       *string                 `yaml:"host" json:"host"`
-	Attributes []*StateDeviceAttribute `yaml:"attributes" json:"attributes"`
-	Status     *StateDeviceStatus      `yaml:"-" json:"status"`
+type RouteEndpointQuery struct {
+	Name     *string `yaml:"name"`
+	Type     *string `yaml:"type"`
+	Required *bool   `yaml:"required"`
+	Validate *string `yaml:"validate"`
 }
 
-type StateDeviceAttribute struct {
-	Name  *string `yaml:"name" json:"name"`
-	Value *string `yaml:"value" json:"value"`
+type RouteEndpointResponse struct {
+	Name        *string `yaml:"name"`
+	Description *string `yaml:"description"`
+	File        *string `yaml:"file"`
 }
 
-type StateDeviceStatus struct {
-	IpAddress    *net.IP
-	Pinger       *probing.Pinger
-	LatestPing   *probing.Statistics
-	RecentPings  []*probing.Statistics
-	CompiledType *StateType
-	Port         map[int]bool
-}
-
-func (r *StateDeviceStatus) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]any{
-		"ipAddress":    r.IpAddress.String(),
-		"latestPing":   r.LatestPing,
-		"recentPings":  r.RecentPings,
-		"compiledType": r.CompiledType,
-		"port":         r.Port,
-	})
+type Toggle struct {
+	Mock map[string]*bool `yaml:"mock"`
 }

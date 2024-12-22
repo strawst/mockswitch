@@ -8,3 +8,8 @@ func Error(title string, err error) {
 	dialog.SetMessage(err.Error())
 	dialog.Show()
 }
+
+func Fatal(title string, err error) {
+	Error(title, err)
+	panic(err)
+}
