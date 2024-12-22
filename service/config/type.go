@@ -28,6 +28,7 @@ type RouteFile struct {
 type RouteEndpoint struct {
 	Name      *string                  `yaml:"name"`
 	Method    *string                  `yaml:"method"`
+	Path      *string                  `yaml:"path"`
 	Queries   []*RouteEndpointQuery    `yaml:"queries"`
 	Bodies    []*RouteEndpointQuery    `yaml:"bodies"`
 	Responses []*RouteEndpointResponse `yaml:"responses"`
