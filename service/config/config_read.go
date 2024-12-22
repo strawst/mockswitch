@@ -70,7 +70,8 @@ func (r *Service) Read() {
 	// * assign struct
 	r.Config = config
 	r.Workspace = workspace
-
+	r.RouteLoad()
+	r.ToggleLoad()
 }
 
 func (r *Service) ReadPromptDefaultConfig(path string) {

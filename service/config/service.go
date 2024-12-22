@@ -18,6 +18,12 @@ func Serve(app *app.App) *Service {
 		app:       app,
 		Config:    nil,
 		Workspace: nil,
+		Route: &Route{
+			Files: make(map[string]*RouteFile),
+		},
+		Toggle: &Toggle{
+			Mock: make(map[string]*bool),
+		},
 	}
 
 	app.Initialized = append(app.Initialized, func() {

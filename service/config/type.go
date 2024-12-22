@@ -18,6 +18,10 @@ type WorkspaceProxy struct {
 }
 
 type Route struct {
+	Files map[string]*RouteFile `yaml:"files"`
+}
+
+type RouteFile struct {
 	Endpoints []*RouteEndpoint `yaml:"endpoints"`
 }
 
@@ -25,7 +29,7 @@ type RouteEndpoint struct {
 	Name      *string                  `yaml:"name"`
 	Method    *string                  `yaml:"method"`
 	Queries   []*RouteEndpointQuery    `yaml:"queries"`
-	Bodies    []*RouteEndpointQuery    `yaml:"queries"`
+	Bodies    []*RouteEndpointQuery    `yaml:"bodies"`
 	Responses []*RouteEndpointResponse `yaml:"responses"`
 }
 
