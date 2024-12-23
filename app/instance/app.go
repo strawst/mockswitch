@@ -68,6 +68,7 @@ func (r *App) Run() {
 		},
 		BackgroundColour: application.NewRGB(27, 38, 54),
 		URL:              "/",
+		DevToolsEnabled:  true,
 	})
 
 	err := r.App.Run()

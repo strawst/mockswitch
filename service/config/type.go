@@ -1,56 +1,56 @@
 package config
 
 type Config struct {
-	WorkspaceFile *string `yaml:"workspaceFile"`
+	WorkspaceFile *string `yaml:"workspaceFile" json:"workspaceFile"`
 }
 
 type Workspace struct {
-	Version *uint8            `yaml:"version"`
-	Id      *string           `yaml:"id"`
-	Name    *string           `yaml:"name"`
-	Listen  *string           `yaml:"listen"`
-	Proxies []*WorkspaceProxy `yaml:"proxies"`
+	Version *uint8            `yaml:"version" json:"version"`
+	Id      *string           `yaml:"id" json:"id"`
+	Name    *string           `yaml:"name" json:"name"`
+	Listen  *string           `yaml:"listen" json:"listen"`
+	Proxies []*WorkspaceProxy `yaml:"proxies" json:"proxies"`
 }
 
 type WorkspaceProxy struct {
-	Prefix *string `yaml:"prefix"`
-	Target *string `yaml:"target"`
+	Prefix *string `yaml:"prefix" json:"prefix"`
+	Target *string `yaml:"target" json:"target"`
 }
 
 type Route struct {
-	Files map[string]*RouteFile `yaml:"files"`
+	Files map[string]*RouteFile `yaml:"files" json:"files"`
 }
 
 type RouteFile struct {
-	Endpoints []*RouteEndpoint `yaml:"endpoints"`
+	Endpoints []*RouteEndpoint `yaml:"endpoints" json:"endpoints"`
 }
 
 type RouteEndpoint struct {
-	Name      *string                           `yaml:"name"`
-	Method    *string                           `yaml:"method"`
-	Path      *string                           `yaml:"path"`
-	Queries   map[string]*RouteEndpointQuery    `yaml:"queries"`
-	Bodies    map[string]*RouteEndpointQuery    `yaml:"bodies"`
-	Responses map[string]*RouteEndpointResponse `yaml:"responses"`
+	Name      *string                           `yaml:"name" json:"name"`
+	Method    *string                           `yaml:"method" json:"method"`
+	Path      *string                           `yaml:"path" json:"path"`
+	Queries   map[string]*RouteEndpointQuery    `yaml:"queries" json:"queries"`
+	Bodies    map[string]*RouteEndpointQuery    `yaml:"bodies" json:"bodies"`
+	Responses map[string]*RouteEndpointResponse `yaml:"responses" json:"responses"`
 }
 
 type RouteEndpointQuery struct {
-	Name     *string `yaml:"name"`
-	Type     *string `yaml:"type"`
-	Required *bool   `yaml:"required"`
-	Validate *string `yaml:"validate"`
+	Name     *string `yaml:"name" json:"name"`
+	Type     *string `yaml:"type" json:"type"`
+	Required *bool   `yaml:"required" json:"required"`
+	Validate *string `yaml:"validate" json:"validate"`
 }
 
 type RouteEndpointResponse struct {
-	Name        *string `yaml:"name"`
-	Description *string `yaml:"description"`
-	File        *string `yaml:"file"`
+	Name        *string `yaml:"name" json:"name"`
+	Description *string `yaml:"description" json:"description"`
+	File        *string `yaml:"file" json:"file"`
 }
 
 type Toggle struct {
-	Mock map[string]*ToggleConfig `yaml:"mock"`
+	Mock map[string]*ToggleConfig `yaml:"mock" json:"mock"`
 }
 
 type ToggleConfig struct {
-	ResponseName *string `yaml:"responseName"`
+	ResponseName *string `yaml:"responseName" json:"responseName"`
 }

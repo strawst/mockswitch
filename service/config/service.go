@@ -28,7 +28,12 @@ func Serve(app *app.App) *Service {
 
 	app.Initialized = append(app.Initialized, func() {
 		config.Read()
-		config.app.App.EmitEvent("app")
+		config.app.App.EmitEvent("app", map[string]any{
+			"config":    config.Config,
+			"workspace": config.Workspace,
+			"route":     config.Route,
+			"toggle":    config.Toggle,
+		})
 	})
 
 	return config
