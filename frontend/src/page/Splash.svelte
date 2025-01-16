@@ -14,7 +14,7 @@
 <main class="h-full flex flex-col justify-between items-center">
     <div></div>
     <div class="flex flex-col items-center">
-        <img alt="Runnr" height="96px" src="/appicon.png" width="96px">
+        <img alt="Mockswitch" height="96px" src="/appicon.png" width="96px">
         <h1 class="mt-2 text-2xl focus-visible:outline-none">
             Mockswitch
         </h1>
